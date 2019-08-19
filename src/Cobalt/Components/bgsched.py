@@ -886,8 +886,8 @@ class BGSched (Component):
 
         # if a realtime job is run in the LPQ (which corresponds to the best_partition_dict)
         # then we want remove the job from the pricing queue and update the position for other jobs in queue
-        from job_pricing import remove_job_from_pricing_queue
-        remove_job_from_pricing_queue(int(job.jobid), self.get_current_time())
+        # from job_pricing import remove_job_from_pricing_queue
+        # remove_job_from_pricing_queue(int(job.jobid), self.get_current_time())
 
     # dwang:
     def _start_rt_job(self, job, partition_list, resid=None):
@@ -903,8 +903,8 @@ class BGSched (Component):
         self.started_jobs[job.jobid] = self.get_current_time()
 
         # if a RT job is run in the HPQ, then remove it from the high_priority_queue_dict in job_pricing.py
-        from job_pricing import remove_realtime_job_from_pricing_queue
-        remove_realtime_job_from_pricing_queue(int(job.jobid), self.get_current_time())
+        # from job_pricing import remove_realtime_job_from_pricing_queue
+        # remove_realtime_job_from_pricing_queue(int(job.jobid), self.get_current_time())
 
     # dwang
     
@@ -924,8 +924,8 @@ class BGSched (Component):
 
         # if a realtime job is run in the LPQ (which corresponds to the best_partition_dict)
         # then we want remove the job from the pricing queue and update the position for other jobs in queue
-        from job_pricing import remove_job_from_pricing_queue
-        remove_job_from_pricing_queue(int(job.jobid), self.get_current_time())
+        # from job_pricing import remove_job_from_pricing_queue
+        # remove_job_from_pricing_queue(int(job.jobid), self.get_current_time())
     # dwang
     
     # dwang:
@@ -942,8 +942,8 @@ class BGSched (Component):
         self.started_jobs[job.jobid] = self.get_current_time()
 
         # if a RT job is run in the HPQ, then remove it from the high_priority_queue_dict in job_pricing.py
-        from job_pricing import remove_realtime_job_from_pricing_queue
-        remove_realtime_job_from_pricing_queue(int(job.jobid), self.get_current_time())
+        # from job_pricing import remove_realtime_job_from_pricing_queue
+        # remove_realtime_job_from_pricing_queue(int(job.jobid), self.get_current_time())
     # dwang
 
     # dwang:
@@ -5712,9 +5712,9 @@ class BGSched (Component):
 
                     # check if the job just entered the high_priority_queue for the first time
                     # if it did, then we need to remove it from the pricing queue and update the other positions
-                    if j.in_high_priority_queue is False:
-                        from job_pricing import remove_job_from_pricing_queue
-                        remove_job_from_pricing_queue(int(j.get('jobid')), now, move_to_HPQ=True)
+                    # if j.in_high_priority_queue is False:
+                    #     from job_pricing import remove_job_from_pricing_queue
+                    #     remove_job_from_pricing_queue(int(j.get('jobid')), now, move_to_HPQ=True)
 
                 else:
                     low_priority_queue_jobs[int(j.get('jobid'))] = j
@@ -5738,8 +5738,8 @@ class BGSched (Component):
         # sort low priority jobs using the default sorting method
         low_priority_jobs.sort(self.utilitycmp)
 
-        from job_pricing import sort_scheduler_jobs_based_on_pricing_queue
-        low_priority_jobs = sort_scheduler_jobs_based_on_pricing_queue(low_priority_jobs)
+        # from job_pricing import sort_scheduler_jobs_based_on_pricing_queue
+        # low_priority_jobs = sort_scheduler_jobs_based_on_pricing_queue(low_priority_jobs)
         return high_priority_jobs, low_priority_jobs, slowdown_threshold_simulation_times, low_priority_queue_jobs, high_priority_queue_jobs
 
 

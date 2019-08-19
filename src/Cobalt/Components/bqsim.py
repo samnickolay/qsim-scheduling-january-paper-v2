@@ -1452,25 +1452,25 @@ class BGQsim(Simulator):
 
                 # print('queueing job - ' + str(temp_id))
 
-                if tempspec.get('user') == 'realtime':
-                # if the job is a realtime job, then compute pricing/slowdown estimates
-                # use user price model to compute max price/slowdown and then pick actual price/slowdown
-                # compute job queue placement
-                    queued_jobs = self.queues.get_jobs([{'is_runnable': True, 'state': 'queued'}])
+                # if tempspec.get('user') == 'realtime':
+                # # if the job is a realtime job, then compute pricing/slowdown estimates
+                # # use user price model to compute max price/slowdown and then pick actual price/slowdown
+                # # compute job queue placement
+                #     queued_jobs = self.queues.get_jobs([{'is_runnable': True, 'state': 'queued'}])
 
-                    self.compute_utility_scores()
+                #     self.compute_utility_scores()
 
-                    running_jobs = self._get_running_jobs()
+                #     running_jobs = self._get_running_jobs()
                     # for part in self.cached_partitions.itervalues():
                     #     tmp_running_job = self.get_running_job_by_partition(part.name)
                     #     if tmp_running_job:
                     #         currently_running_jobs.append(tmp_running_job)
 
-                    from job_pricing import insert_RTJ_in_pricing_queue
-                    insert_RTJ_in_pricing_queue(job_temp, queued_jobs, running_jobs, self.get_current_time())
-                else:
-                    from job_pricing import insert_batch_job_in_pricing_queue
-                    insert_batch_job_in_pricing_queue(job_temp)
+                    # from job_pricing import insert_RTJ_in_pricing_queue
+                    # insert_RTJ_in_pricing_queue(job_temp, queued_jobs, running_jobs, self.get_current_time())
+                # else:
+                #     from job_pricing import insert_batch_job_in_pricing_queue
+                #     insert_batch_job_in_pricing_queue(job_temp)
 
             elif cur_event=="E":  # Job (Id) is completed
                 completed_job = self.get_live_job_by_id(Id)
@@ -8054,7 +8054,7 @@ class BGQsim(Simulator):
         import collections
         experiment_metrics = collections.OrderedDict()
 
-        from job_pricing import completed_jobs_pricing_queue_dict
+        # from job_pricing import completed_jobs_pricing_queue_dict
 
         ##############################################################################################
         # remove double coupled overhead records (in case where a job is preempted while restarting
@@ -8468,18 +8468,18 @@ class BGQsim(Simulator):
                 trimmed = False
 
             # job pricing values
-            job_pricing = completed_jobs_pricing_queue_dict[jobid_int]
+            # job_pricing = completed_jobs_pricing_queue_dict[jobid_int]
 
-            job_values['pricing_queue_position'] = job_pricing.pricing_queue_position
-            job_values['original_pricing_queue_position'] = job_pricing.original_pricing_queue_position
-            job_values['max_price'] = job_pricing.max_price
-            job_values['max_slowdown'] = job_pricing.max_slowdown
-            job_values['price_slowdown_quotes'] = job_pricing.price_slowdown_quotes
-            job_values['originally_realtime'] = job_pricing.originally_realtime
-            job_values['quoted_price'] = job_pricing.quoted_price
-            job_values['quoted_slowdown'] = job_pricing.quoted_slowdown
-            job_values['estimated_slowdown_at_runtime'] = job_pricing.estimated_slowdown_at_runtime
-            job_values['in_high_priority_queue'] = job_pricing.in_high_priority_queue
+            # job_values['pricing_queue_position'] = job_pricing.pricing_queue_position
+            # job_values['original_pricing_queue_position'] = job_pricing.original_pricing_queue_position
+            # job_values['max_price'] = job_pricing.max_price
+            # job_values['max_slowdown'] = job_pricing.max_slowdown
+            # job_values['price_slowdown_quotes'] = job_pricing.price_slowdown_quotes
+            # job_values['originally_realtime'] = job_pricing.originally_realtime
+            # job_values['quoted_price'] = job_pricing.quoted_price
+            # job_values['quoted_slowdown'] = job_pricing.quoted_slowdown
+            # job_values['estimated_slowdown_at_runtime'] = job_pricing.estimated_slowdown_at_runtime
+            # job_values['in_high_priority_queue'] = job_pricing.in_high_priority_queue
 
 
             job_values['wall_time'] = float(walltimes[str(jobid_int)]) / 60.0

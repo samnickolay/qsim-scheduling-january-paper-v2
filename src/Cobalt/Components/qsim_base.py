@@ -336,7 +336,7 @@ class Job (Data):
         self.originally_realtime = False
         self.quoted_price = -1
         self.quoted_slowdown = -1
-        self.quoted_slowdown_time = -1
+        self.quoted_slowdown_time = 1.1
         self.estimated_slowdown_at_runtime = -1
         self.in_high_priority_queue = False
 
