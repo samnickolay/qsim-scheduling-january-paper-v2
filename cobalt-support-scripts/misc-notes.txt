@@ -1,0 +1,65 @@
+Different scheduling heuristic descriptions:
+
+baseline - the closest scheduler to the actual Cobalt that we can get
+
+highpQ - High priority queue (Daihou's)
+v1 - PRE-REST - Preemption with restarting (Daihou's)
+v2 - PRE-CKPT - Preemption with JIT checkpointing (Daihou's)
+v2p - PRE-CKPT-SYS - Preemption with system level checkpointing (Daihou's)
+v2p_app - PRE-CKPT-APP - Preemption with application level checkpointing (Daihou's)
+
+v2_sam_v1 - Preemption with JIT Checkpointing
+v2p_app_sam_v1 - Preemption with Application Level Checkpointing (based on checkpointing overhead percentage allowance - 5%, 10%, 20%)
+
+
+v2p_sam_v1 - Preemption with system level checkpointing (not currently using I believe due to high checkpointing overheads for large jobs)
+
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+Important parts of Cobalt Code:
+
+qsim.py:
+
+387 - experiment_metrics = integrated_main(options)
+
+94 - def integrated_main(options):
+	138 - evsim.event_driver(opts.preempt_overhead,fp_backf,fp_pre_bj, options.get("checkpoint"),
+                               options.get("checkp_dsize"), options.get("checkp_w_bandwidth"), options.get("checkp_r_bandwidth"),
+                               options.get("checkp_t_internval"), options.get("intv_pcent"),
+                               options.get("checkpH_opt") )
+
+----------------------------------------------------------------------------------------------
+evsim.py:
+
+347 - def event_driver(self, preempt,fp_backf,fp_pre_bj, checkpoint_opt, checkp_dsize, checkp_w_bandwidth, checkp_r_bandwidth, checkp_t_internval, checkp_t_internval_pcent, checkp_heur_opt ):
+	410 - self.bgsched.schedule_jobs_wcheckp_v2p_sam_v1(preempt,fp_backf,fp_pre_bj, checkp_dsize, checkp_w_bandwidth, checkp_r_bandwidth, checkp_t_internval, checkp_heur_opt)
+
+----------------------------------------------------------------------------------------------
+bgsched.py:
+
+3370 - def schedule_jobs_wcheckp_v2p_sam_v1(self, preempt, fp_backf, fp_pre_bj, dsize_pnode, bw_temp_write, bw_temp_read, checkp_t_internval, checkp_heur_opt):
+
+3545 - differentiate realtime from batch jobs (when to enable realtime jobs for preemption)
+
+3628 - active_jobs.sort(self.utilitycmp)
+
+3687 - best_partition_dict_wcheckp = ComponentProxy("system").find_job_location_wcheckp_sam_v1(job_location_args, end_times, fp_backf, 0, checkp_t_internval)
+
+----------------------------------------------------------------------------------------------
+bqsim.py
+
+5452 - def find_job_location_wcheckp_sam_v1(self, arg_list, end_times, fp_backf, checkp_thresh, checkp_t_internval):
+
+3722 - def _find_job_location_wcheckp_sam_v1(self, args, drain_partitions=set(), taken_partition=set(), backfilling=False, checkp_t_internval=None):
+
+----------------------------------------------------------------------------------------------
+MISC:
+----------------------------------------------------------------------------------------------
+bqsim.py
+
+6110 - def compute_utility_scores (self):
+	# utility scores are used for sorting the jobs in the queue
+
+6984 - def post_simulation_handling(self,simu_name, simu_tid, checkp_t_internval, dsize_pnode, bw_temp_write):
+./preempt_overhead
