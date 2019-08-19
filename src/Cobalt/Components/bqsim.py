@@ -8490,10 +8490,10 @@ class BGQsim(Simulator):
             job_values['initial_queue_time'] = (start_time - queue_time) / 60.0  # convert from second to minutes
             job_values['utilization_at_queue_time'] = evsim.jobs_queue_time_utilizations[jobid_int]
 
-            if job_values['slowdown_walltime'] > job_values['quoted_slowdown']:
-                job_values['exceeded_slowdown_quote'] = True
-            else:
-                job_values['exceeded_slowdown_quote'] = False
+            # if job_values['slowdown_walltime'] > job_values['quoted_slowdown']:
+            #     job_values['exceeded_slowdown_quote'] = True
+            # else:
+            #     job_values['exceeded_slowdown_quote'] = False
 
             job_values['trimmed'] = trimmed
             job_values['job_type'] = job_type

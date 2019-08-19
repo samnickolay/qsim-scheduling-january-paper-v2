@@ -5665,7 +5665,7 @@ class BGSched (Component):
 
             # if job is already in high_priority_queue before, then we can assume it will still be in there
             if j.in_high_priority_queue == True:
-                high_priority_jobs.append( (j.quoted_slowdown_time, j) )
+                high_priority_jobs.append(j)
                 high_priority_queue_jobs[int(j.get('jobid'))] = j
                 continue
 
@@ -5707,7 +5707,7 @@ class BGSched (Component):
                 current_job_slowdown_threshold = slowdown_threshold
                 if temp_slowdown >= slowdown_threshold:
 
-                    high_priority_jobs.append((j.quoted_slowdown_time, j))
+                    high_priority_jobs.append(j)
                     high_priority_queue_jobs[int(j.get('jobid'))] = j
 
                     # check if the job just entered the high_priority_queue for the first time
@@ -5731,9 +5731,11 @@ class BGSched (Component):
 
 
         # sort high_priority jobs based on time until they reach their quoted slowdown threshold
-        high_priority_jobs.sort()
-        high_priority_jobs = [high_priority_job for (time, high_priority_job) in high_priority_jobs]
+        # high_priority_jobs.sort()
+        # high_priority_jobs = [high_priority_job for (time, high_priority_job) in high_priority_jobs]
         # high_priority_jobs.sort(self.utilitycmp)
+
+        high_priority_jobs.sort(self.utilitycmp)
 
         # sort low priority jobs using the default sorting method
         low_priority_jobs.sort(self.utilitycmp)
