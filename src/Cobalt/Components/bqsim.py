@@ -943,6 +943,9 @@ class BGQsim(Simulator):
                 if job_temp in highPriorityJobs:
                     continue
 
+                if float(job_temp.get('walltime')) > 15:
+                    continue
+
                 if  rt_job_categories == 'all':
                     pass
                 elif rt_job_categories == 'short':
