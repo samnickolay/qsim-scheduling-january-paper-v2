@@ -943,8 +943,8 @@ class BGQsim(Simulator):
                 if job_temp in highPriorityJobs:
                     continue
 
-                if float(job_temp.get('walltime')) > 15:
-                    continue
+                # if float(job_temp.get('walltime')) > 15:
+                #     continue
 
                 if  rt_job_categories == 'all':
                     pass
@@ -8210,8 +8210,23 @@ class BGQsim(Simulator):
         # combine job event entries:
         for jobid, job in self.started_job_dict.iteritems():
             jobid_int = int(jobid)
-            job_start_times = self.jobs_start_times[jobid_int]
-            job_end_times = self.jobs_end_times[jobid_int]
+
+            try:
+                job_start_times = self.jobs_start_times[jobid_int]
+            except Exception as e:
+                print("Error - couldn't find job_start_times -" + str(jobid))
+                print(e)
+                continue
+            try:
+                job_end_times = self.jobs_end_times[jobid_int]
+            except Exception as e:
+                print("Error - couldn't find jobs_end_times -" + str(jobid))
+                print(e)
+                continue
+
+            # job_start_times = self.jobs_start_times[jobid_int]
+            # job_end_times = self.jobs_end_times[jobid_int]
+
             if jobid_int in self.jobs_kill_times:
                 job_kill_times = self.jobs_kill_times[jobid_int]
             else:
@@ -8418,126 +8433,133 @@ class BGQsim(Simulator):
         jobs_metrics = {}
 
         for jobid, job in self.started_job_dict.iteritems():
-            jobid_int = int(jobid)
 
-            # job_start_time = self.jobs_start_times[jobid_int][0][0]
-            # job_end_time = job.get('end_time')
-            # t1 = self.jobs_end_times[jobid_int]
-            # t2 = self.jobs_start_times[jobid_int]
-            # t3 = jobs_intervals[jobid_int]
-            test_tt = jobs_intervals[jobid_int][-1].end_time - jobs_intervals[jobid_int][0].start_time
+            try:
 
-            end_time = self.jobs_end_times[jobid_int][-1][0]
-            start_time = self.jobs_start_times[jobid_int][0][0]
-            queue_time = float(job.get('submittime'))
-            # runtime_log = float(job.get('runtime_org'))
-            runtime_log = float(job.get('original_log_runtime'))
-            walltime_seconds = float(walltimes[str(jobid_int)])
+                jobid_int = int(jobid)
 
-            if test_tt != (end_time - queue_time):
-                pass
+                # job_start_time = self.jobs_start_times[jobid_int][0][0]
+                # job_end_time = job.get('end_time')
+                # t1 = self.jobs_end_times[jobid_int]
+                # t2 = self.jobs_start_times[jobid_int]
+                # t3 = jobs_intervals[jobid_int]
+                test_tt = jobs_intervals[jobid_int][-1].end_time - jobs_intervals[jobid_int][0].start_time
 
-            temp_turnaround_time = (end_time - queue_time) / 60.0  # convert from second to minutes
-            temp_run_time = runtime_log / 60.0  # convert from seconds to minutes
-            temp_bounded_runtime = max(runtime_log, bounded_slowdown_threshold)
-            temp_slowdown_runtime = (end_time - queue_time - runtime_log + temp_bounded_runtime) / temp_bounded_runtime
+                end_time = self.jobs_end_times[jobid_int][-1][0]
+                start_time = self.jobs_start_times[jobid_int][0][0]
+                queue_time = float(job.get('submittime'))
+                # runtime_log = float(job.get('runtime_org'))
+                runtime_log = float(job.get('original_log_runtime'))
+                walltime_seconds = float(walltimes[str(jobid_int)])
 
-            temp_bounded_walltime = max(walltime_seconds, bounded_slowdown_threshold)
-            temp_slowdown_walltime = (end_time - queue_time - runtime_log + temp_bounded_runtime) / temp_bounded_walltime
+                if test_tt != (end_time - queue_time):
+                    pass
 
-            if float(job.get('partsize')) <= 4096:  # if job is narrow
-                if walltime_seconds <= 120 * 60.0:  # if job is short
-                # if float(job.get('runtime_org')) <= 120 * 60.0:  # if job is short
-                    job_category = 'narrow_short'
-                else:  # if job is long
-                    job_category = 'narrow_long'
-            else:  # if job is wide
-                if walltime_seconds <= 120 * 60.0:  # if job is short
-                # if float(job.get('runtime_org')) <= 120 * 60.0:  # if job is short
-                    job_category = 'wide_short'
-                else:  # if job is long
-                    job_category = 'wide_long'
+                temp_turnaround_time = (end_time - queue_time) / 60.0  # convert from second to minutes
+                temp_run_time = runtime_log / 60.0  # convert from seconds to minutes
+                temp_bounded_runtime = max(runtime_log, bounded_slowdown_threshold)
+                temp_slowdown_runtime = (end_time - queue_time - runtime_log + temp_bounded_runtime) / temp_bounded_runtime
 
-            if str(job.get('jobid')) in rtj_id:  # if job is a realtime job
-                job_type = 'rt'
-            else:
-                job_type = 'batch'
+                temp_bounded_walltime = max(walltime_seconds, bounded_slowdown_threshold)
+                temp_slowdown_walltime = (end_time - queue_time - runtime_log + temp_bounded_runtime) / temp_bounded_walltime
 
-            job_values = self.jobs_log_values[jobid_int].copy()
+                if float(job.get('partsize')) <= 4096:  # if job is narrow
+                    if walltime_seconds <= 120 * 60.0:  # if job is short
+                    # if float(job.get('runtime_org')) <= 120 * 60.0:  # if job is short
+                        job_category = 'narrow_short'
+                    else:  # if job is long
+                        job_category = 'narrow_long'
+                else:  # if job is wide
+                    if walltime_seconds <= 120 * 60.0:  # if job is short
+                    # if float(job.get('runtime_org')) <= 120 * 60.0:  # if job is short
+                        job_category = 'wide_short'
+                    else:  # if job is long
+                        job_category = 'wide_long'
 
-            if job_values['log_start_time'] >= utilization_window_start_time and job_values['log_end_time'] <= utilization_window_end_time:
-                trimmed = True
-            else:
-                trimmed = False
+                if str(job.get('jobid')) in rtj_id:  # if job is a realtime job
+                    job_type = 'rt'
+                else:
+                    job_type = 'batch'
 
-            # job pricing values
-            # job_pricing = completed_jobs_pricing_queue_dict[jobid_int]
+                job_values = self.jobs_log_values[jobid_int].copy()
 
-            # job_values['pricing_queue_position'] = job_pricing.pricing_queue_position
-            # job_values['original_pricing_queue_position'] = job_pricing.original_pricing_queue_position
-            # job_values['max_price'] = job_pricing.max_price
-            # job_values['max_slowdown'] = job_pricing.max_slowdown
-            # job_values['price_slowdown_quotes'] = job_pricing.price_slowdown_quotes
-            # job_values['originally_realtime'] = job_pricing.originally_realtime
-            # job_values['quoted_price'] = job_pricing.quoted_price
-            # job_values['quoted_slowdown'] = job_pricing.quoted_slowdown
-            # job_values['estimated_slowdown_at_runtime'] = job_pricing.estimated_slowdown_at_runtime
-            # job_values['in_high_priority_queue'] = job_pricing.in_high_priority_queue
+                if job_values['log_start_time'] >= utilization_window_start_time and job_values['log_end_time'] <= utilization_window_end_time:
+                    trimmed = True
+                else:
+                    trimmed = False
+
+                # job pricing values
+                # job_pricing = completed_jobs_pricing_queue_dict[jobid_int]
+
+                # job_values['pricing_queue_position'] = job_pricing.pricing_queue_position
+                # job_values['original_pricing_queue_position'] = job_pricing.original_pricing_queue_position
+                # job_values['max_price'] = job_pricing.max_price
+                # job_values['max_slowdown'] = job_pricing.max_slowdown
+                # job_values['price_slowdown_quotes'] = job_pricing.price_slowdown_quotes
+                # job_values['originally_realtime'] = job_pricing.originally_realtime
+                # job_values['quoted_price'] = job_pricing.quoted_price
+                # job_values['quoted_slowdown'] = job_pricing.quoted_slowdown
+                # job_values['estimated_slowdown_at_runtime'] = job_pricing.estimated_slowdown_at_runtime
+                # job_values['in_high_priority_queue'] = job_pricing.in_high_priority_queue
 
 
-            job_values['wall_time'] = float(walltimes[str(jobid_int)]) / 60.0
-            job_values['run_time'] = temp_run_time
-            job_values['slowdown_runtime'] = temp_slowdown_runtime
-            job_values['slowdown_walltime'] = temp_slowdown_walltime
-            job_values['turnaround_time'] = temp_turnaround_time
-            job_values['initial_queue_time'] = (start_time - queue_time) / 60.0  # convert from second to minutes
-            job_values['utilization_at_queue_time'] = evsim.jobs_queue_time_utilizations[jobid_int]
+                job_values['wall_time'] = float(walltimes[str(jobid_int)]) / 60.0
+                job_values['run_time'] = temp_run_time
+                job_values['slowdown_runtime'] = temp_slowdown_runtime
+                job_values['slowdown_walltime'] = temp_slowdown_walltime
+                job_values['turnaround_time'] = temp_turnaround_time
+                job_values['initial_queue_time'] = (start_time - queue_time) / 60.0  # convert from second to minutes
+                job_values['utilization_at_queue_time'] = evsim.jobs_queue_time_utilizations[jobid_int]
 
-            # if job_values['slowdown_walltime'] > job_values['quoted_slowdown']:
-            #     job_values['exceeded_slowdown_quote'] = True
-            # else:
-            #     job_values['exceeded_slowdown_quote'] = False
+                # if job_values['slowdown_walltime'] > job_values['quoted_slowdown']:
+                #     job_values['exceeded_slowdown_quote'] = True
+                # else:
+                #     job_values['exceeded_slowdown_quote'] = False
 
-            job_values['trimmed'] = trimmed
-            job_values['job_type'] = job_type
-            job_values['job_category'] = job_category
-            job_values['location'] = job.get('location')
+                job_values['trimmed'] = trimmed
+                job_values['job_type'] = job_type
+                job_values['job_category'] = job_category
+                job_values['location'] = job.get('location')
 
-            job_values['start_times'] = [job_start_time[0] for job_start_time in self.jobs_start_times[jobid_int]]
-            job_values['end_times'] = [job_end_time[0] for job_end_time in self.jobs_end_times[jobid_int]]
+                job_values['start_times'] = [job_start_time[0] for job_start_time in self.jobs_start_times[jobid_int]]
+                job_values['end_times'] = [job_end_time[0] for job_end_time in self.jobs_end_times[jobid_int]]
 
-            for interval_metric in ['queue_time', 'wait_time', 'checkpoint_time', 'restart_time', 'waste_time']:
-                job_values[interval_metric] = 0.0
-            for interval_metric in ['queue_count', 'wait_count', 'checkpoint_count', 'restart_count', 'waste_count']:
-                job_values[interval_metric] = 0
+                for interval_metric in ['queue_time', 'wait_time', 'checkpoint_time', 'restart_time', 'waste_time']:
+                    job_values[interval_metric] = 0.0
+                for interval_metric in ['queue_count', 'wait_count', 'checkpoint_count', 'restart_count', 'waste_count']:
+                    job_values[interval_metric] = 0
 
-            for job_interval in jobs_intervals[jobid_int]:
-                job_interval_length = job_interval.end_time - job_interval.start_time
-                if job_interval.type == 'queued':
-                    job_values['queue_time'] += job_interval_length
-                    job_values['queue_count'] += 1
+                for job_interval in jobs_intervals[jobid_int]:
+                    job_interval_length = job_interval.end_time - job_interval.start_time
+                    if job_interval.type == 'queued':
+                        job_values['queue_time'] += job_interval_length
+                        job_values['queue_count'] += 1
 
-                elif job_interval.type == 'waiting':
-                    job_values['wait_time'] += job_interval_length
-                    job_values['wait_count'] += 1
+                    elif job_interval.type == 'waiting':
+                        job_values['wait_time'] += job_interval_length
+                        job_values['wait_count'] += 1
 
-                elif job_interval.type == 'checkpointing':
-                    job_values['checkpoint_time'] += job_interval_length
-                    job_values['checkpoint_count'] += 1
+                    elif job_interval.type == 'checkpointing':
+                        job_values['checkpoint_time'] += job_interval_length
+                        job_values['checkpoint_count'] += 1
 
-                elif job_interval.type == 'restarting':
-                    job_values['restart_time'] += job_interval_length
-                    job_values['restart_count'] += 1
+                    elif job_interval.type == 'restarting':
+                        job_values['restart_time'] += job_interval_length
+                        job_values['restart_count'] += 1
 
-                elif job_interval.type == 'wasted':
-                    job_values['waste_time'] += job_interval_length
-                    job_values['waste_count'] += 1
+                    elif job_interval.type == 'wasted':
+                        job_values['waste_time'] += job_interval_length
+                        job_values['waste_count'] += 1
 
-            class_less_job_intervals = [(tmp_interval.type, tmp_interval.start_time, tmp_interval.end_time)
-                                        for tmp_interval in jobs_intervals[jobid_int]]
-            job_values['intervals'] = class_less_job_intervals
+                class_less_job_intervals = [(tmp_interval.type, tmp_interval.start_time, tmp_interval.end_time)
+                                            for tmp_interval in jobs_intervals[jobid_int]]
+                job_values['intervals'] = class_less_job_intervals
 
-            jobs_metrics[jobid_int] = job_values
+                jobs_metrics[jobid_int] = job_values
+                
+            except Exception as e:
+                print('Error computing job metrics for job - ' + str(jobid))
+                print(e)
 
         ##############################################################################################
         # Experiment Metrics
