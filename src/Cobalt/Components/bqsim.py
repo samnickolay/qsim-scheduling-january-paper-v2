@@ -919,7 +919,7 @@ class BGQsim(Simulator):
 
         def generate_APS_jobs(number_rt_jobs, min_queue_time, max_queue_time):
             rtj_specs = []
-            for i in range(number_rt_jobs)
+            for i in range(number_rt_jobs):
                 spec = {}
                 spec['jobid'] = i
                 spec['queue'] = 'default'
@@ -981,7 +981,10 @@ class BGQsim(Simulator):
                 runtime_minutes = runtime_seconds / 60.0
 
                 # convert walltime from 'hh:mm:ss' to float of minutes
-                spec['walltime'] = runtime_minutes * 1.2
+
+                walltime_runtime_ratio = random.uniform(1.0, 2.0)
+
+                spec['walltime'] = runtime_minutes * walltime_runtime_ratio
                 spec['runtime'] = runtime_minutes
 
                 import numpy
