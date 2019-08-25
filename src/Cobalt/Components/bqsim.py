@@ -916,64 +916,199 @@ class BGQsim(Simulator):
         # print "[dw] highp_id: ", highp_id
 
         highPriorityJobs = []
-        # if the job trace contains realtime/batch indicators
-        if realtime_info_in_job_trace is True:
-            for job_temp in specs:
-                if job_temp['jobid'] in realtime_job_ids:
-                    highPriorityJobs.append(job_temp)
 
-        # if the job trace didn't contain realtime/batch indicators then randomly set jobs as realtime/batch
-        elif realtime_info_in_job_trace is False:
+        def generate_APS_jobs(number_rt_jobs, min_queue_time, max_queue_time):
+            rtj_specs = []
+            for i in range(number_rt_jobs)
+                spec = {}
+                spec['jobid'] = i
+                spec['queue'] = 'default'
+                spec['user'] = 'rtj'
+                spec['project'] ='default'
 
-            ###
-            # samnickolay
-            # select simu_rt_percent of the jobs as realtime jobs using random seed
-            randomNumberGeneratorInstance = random.Random()
-            # seed = trial_number * 25 + 5
-            seed = trial_number + 1000
-            randomNumberGeneratorInstance.seed(seed)
+                submit_time = random.uniform(min_queue_time, max_queue_time)
 
-            if simu_rt_percent is None:
-                simu_rt_percent = 0
+                spec['submittime'] = submit_time
+                spec['first_subtime'] = spec['submittime']
 
+                aps_runtimes = [ 93, 110, 90, 80, 86, 68, 448, 95, 65, 103, 98, 91, 362, 387, 396, 97, 76, 72, 91, 407, 406, 424, 83, 86,
+                             77, 88, 391, 381, 419, 78, 79, 78, 374, 409, 371, 73, 81, 91, 372, 381, 368, 82, 79, 361, 367, 407, 77,
+                             80, 84, 81, 395, 377, 388, 89, 344, 366, 382, 77, 82, 86, 376, 372, 459, 82, 369, 395, 360, 80, 77, 411,
+                             390, 427, 75, 87, 426, 392, 381, 82, 350, 377, 430, 93, 388, 373, 402, 83, 75, 70, 79, 406, 371, 415, 89,
+                             70, 85, 431, 393, 356, 81, 86, 372, 350, 373, 80, 85, 374, 388, 394, 72, 84, 358, 352, 439, 75, 71, 406,
+                             387, 376, 79, 85, 90, 400, 443, 396, 78, 85, 366, 395, 373, 90, 78, 92, 321, 410, 414, 94, 85, 79, 77,
+                             383, 376, 400, 91, 88, 335, 429, 426, 73, 72, 73, 336, 390, 410, 83, 365, 416, 378, 99, 82, 78, 353,
+                             366, 404, 73, 78, 384, 402, 394, 83, 84, 76, 397, 436, 405, 93, 74, 77, 88, 374, 411, 370, 71, 81, 95,
+                             83, 401, 377, 378, 93, 83, 88, 331, 391, 395, 80, 84, 366, 434, 374, 91, 89, 365, 387, 375, 87, 344,
+                             382, 374, 89, 84, 327, 415, 403, 73, 88, 385, 393, 400, 82, 85, 354, 398, 400, 78, 72, 90, 324, 367,
+                             355, 89, 345, 373, 362, 78, 75, 80, 399, 126, 161, 123, 122, 112, 130, 151, 131, 141, 122, 128, 138, 138,
+                             116, 102, 107, 125, 134, 149, 86, 129, 128, 116, 99, 125, 114, 114, 93, 127, 132, 129, 92, 138, 101, 151,
+                             81, 125, 142, 138, 83, 142, 135, 131, 90, 132, 152, 145, 98, 130, 120, 128, 86, 132, 122, 140, 93, 112,
+                             124, 121, 105, 119, 147, 138, 93, 126, 117, 123, 84, 136, 125, 120, 98, 113, 124, 136, 97, 121, 136, 118,
+                             84, 137, 120, 132, 95, 143, 128, 147, 85, 133, 128, 127, 91, 129, 133, 119, 83, 108, 141, 134, 88, 116,
+                             151, 134, 106, 155, 135, 94, 130, 126, 136, 95, 121, 130, 127, 111, 123, 137, 100, 100, 128, 123, 87,
+                             126, 131, 130, 89, 133, 124, 148, 112, 117, 136, 141, 90, 132, 133, 132, 89, 131, 152, 143, 102, 59, 60,
+                             60, 79, 65, 60, 59, 74, 96, 60, 60, 60, 72, 114, 135, 109, 133, 140, 114, 102, 123, 121, 134, 81, 90, 126,
+                             117, 119, 89, 97, 138, 135, 80, 115, 125, 127, 90, 168, 119, 144, 80, 91, 125, 129, 105, 78, 88, 77, 97,
+                             127, 143, 110, 90, 74, 79, 122, 150, 133, 106, 116, 122, 129, 95, 125, 123, 135, 91, 74, 87, 84, 138, 145,
+                             126, 90, 138, 126, 145, 83, 90, 125, 132, 145, 81, 84, 78, 88, 118, 142, 164, 89, 112, 60, 89, 61, 62,
+                             132, 104, 108, 138, 90, 172, 150, 168, 103, 97, 128, 221, 86, 147, 104, 179, 197, 102, 131, 155, 159, 151,
+                             105, 128, 155, 135, 93, 141, 158, 131, 94, 150, 129, 191, 160, 113, 148, 143, 153, 127, 148, 162, 139,
+                             118, 149, 174, 152, 133, 155, 141, 121, 131, 131, 177, 145, 106, 152, 142, 148, 182, 119, 114, 149, 135,
+                             135, 131, 135, 136, 163, 127, 127, 159, 137, 174, 132, 116, 148, 154, 168, 152, 80, 89, 91, 84, 97, 77,
+                             91, 106, 111, 99, 85, 94, 117, 103, 65, 99, 100, 82, 105, 112, 90, 111, 106, 80, 112, 86, 136, 93, 100,
+                             90, 97, 113, 112, 114, 97, 113, 98, 96, 94, 103, 105, 122, 84, 109, 94, 100, 86, 130, 81, 129, 96, 82,
+                             110, 117, 99, 94, 645, 705, 530, 557, 635, 622, 531, 608, 526, 569, 617, 558, 566, 592, 547, 515, 548,
+                             662, 673, 583, 554, 519, 503, 490, 506, 491, 492, 517, 469, 523, 475, 451, 489, 491, 495, 526, 505, 517,
+                             463, 518, 482, 510, 475, 490, 521, 484, 515, 502, 475, 535, 474, 485, 513, 519, 518, 505, 518, 463, 503,
+                             505, 507, 483, 547, 478, 533, 491, 542, 466, 536, 488, 504, 524, 531, 490, 532, 541, 506, 508, 509, 510,
+                             549, 534, 501, 525, 487, 522, 533, 496, 565, 494, 530, 543, 530, 518, 501, 507, 500, 554, 463, 534, 517,
+                             519, 514, 526, 536, 558, 515, 531, 541, 525, 496, 518, 545, 526, 492, 529, 518, 533, 486, 552, 540, 531,
+                             566, 515, 514, 506, 512, 502, 565, 488, 543, 475, 534, 510, 522, 517, 551, 477, 502, 542, 505, 502, 531,
+                             566, 556, 494, 543, 101, 108, 102, 106, 99, 104, 98, 92, 92, 401, 120, 532, 106, 529, 589, 514, 549, 566,
+                             107, 606, 537, 522, 110, 105, 101, 109, 584, 92, 555, 419, 389, 466, 493, 460, 436, 437, 411, 433, 477,
+                             432, 86, 93, 89, 91, 97, 97, 96, 416, 414, 497, 448, 422, 436, 405, 459, 439, 469, 432, 93, 92, 100, 90,
+                             95, 97, 90, 92, 481, 432, 443, 428, 424, 449, 427, 442, 418, 449, 465, 402, 419, 442, 457, 455, 445, 411,
+                             394, 407, 372, 424, 452, 401, 453, 393, 511, 437, 404, 472, 93, 84, 87, 86, 93, 83, 89, 86, 92, 88, 95,
+                             89, 366, 416, 461, 387, 448, 466, 451, 473, 429, 405, 468, 440, 447, 453, 440, 416, 462, 432, 420, 445,
+                             436, 468, 389, 459, 420, 454, 430, 460, 467, 450, 87, 87, 92, 82, 88, 96, 92, 94, 88, 84, 84, 87, 91, 86,
+                             86, 84, 87, 93, 457, 405, 417, 410, 442, 418, 389, 419, 433, 392, 462, 435, 476, 439, 462, 462, 442, 440,
+                             453, 433, 448, 441, 474, 427, 95, 85, 77, 85, 89, 85, 82, 92, 83, 99, 94, 106, 93, 101, 92, 425, 395, 484,
+                             480, 434, 450, 394, 428, 419, 409, 388, 434, 446, 383, 425, 405, 458, 413, 475, 438, 423, 419, 443, 478,
+                             381, 450, 416, 85, 89, 90, 90, 89, 92, 88, 97, 92, 97, 98, 85, 88, 91, 87, 93, 92]
+
+                runtime_seconds = random.choice(aps_runtimes)
+                runtime_minutes = runtime_seconds / 60.0
+
+                # convert walltime from 'hh:mm:ss' to float of minutes
+                spec['walltime'] = runtime_minutes * 1.2
+                spec['runtime'] = runtime_minutes
+
+                import numpy
+                random_nodes = numpy.random.exponential(scale=2048)
+                if (random_nodes <= 512):
+                    nodes = 512
+                elif (random_nodes <= 1024):
+                    nodes = 1024
+                elif (random_nodes <= 2048):
+                    nodes = 2048
+                elif (random_nodes <= 4096):
+                    nodes = 4096
+                elif (random_nodes <= 8192):
+                    nodes = 8192
+                elif (random_nodes <= 12288):
+                    nodes = 12288
+                elif (random_nodes <= 16384):
+                    nodes = 16384
+                elif (random_nodes <= 24576):
+                    nodes = 24576
+                elif (random_nodes <= 32768):
+                    nodes = 32768
+                elif (random_nodes <= 49152):
+                    nodes = 49152
+                else:
+                    nodes = 49152 
+
+                spec['nodes'] = nodes
+                
+                spec['state'] = 'invisible'
+                spec['start_time'] = '0'
+                spec['end_time'] = '0'
+                spec['has_resources'] = False
+                spec['is_runnable'] = False
+                spec['location'] = tmp.get('exec_host', '')  # used for reservation jobs only
+                spec['start_time'] = tmp.get('start', 0)  # used for reservation jobs only
+                spec['restart_overhead'] = 0.0
+
+                spec['original_log_runtime'] = spec['runtime'] 
+           
+                # add the job spec to the spec list
+                rtj_specs.append(spec)
+            return rtj_specs
+
+
+        generate_APS_RTJs = False
+        # this code will generate RTJs using APS data instead of assigning Mira jobs to be RTJs
+        if generate_APS_RTJs is True:
+            print('Generating RTJs using APS log data')
             number_rt_jobs = int(simu_rt_percent / 100.0 * len(specs))
 
-            while len(highPriorityJobs) < number_rt_jobs:
-                job_temp = specs[randomNumberGeneratorInstance.randint(0, len(specs)-1)]
-                if job_temp in highPriorityJobs:
-                    continue
 
-                # if float(job_temp.get('walltime')) > 15:
-                #     continue
+            queue_times = [spec['submittime'] for spec in specs]
+            min_queue_time = min(queue_times)
+            max_queue_time = max(queue_times)
 
-                if  rt_job_categories == 'all':
-                    pass
-                elif rt_job_categories == 'short':
-                    if float(job_temp.get('walltime')) > 120:
-                        continue
-                elif rt_job_categories == 'narrow': # only narrow jobs
-                    if float(job_temp.get('nodes')) > 4096:
-                        continue
-                elif rt_job_categories == 'short-or-narrow': # exclude long-wide
-                    if float(job_temp.get('nodes')) > 4096 and float(job_temp.get('walltime')) > 120:
-                        continue
-                elif rt_job_categories == 'short-and-narrow': # only short-narrow jobs
-                    if float(job_temp.get('nodes')) > 4096 or float(job_temp.get('walltime')) > 120:
-                        continue
-                elif rt_job_categories == 'corehours':
-                    if float(job_temp.get('nodes')) * float(job_temp.get('walltime')) > 491520:
-                        continue
-                else:
-                    print('Invalid argument for rt_job_categories: ', rt_job_categories)
-                    exit(-1)
 
-                # if float(job_temp.get('nodes')) > 4096:
-                #     continue
-                # if float(job_temp.get('walltime')) > 120:
-                #     continue
-                # if float(job_temp.get('nodes')) > 4096 and float(job_temp.get('walltime')) > 120:
-                #     continue
-                highPriorityJobs.append(job_temp)
+            rtj_specs = generate_APS_jobs(number_rt_jobs, min_queue_time, max_queue_time)
+            print('random batch spec for comparison')
+            print(specs[0])
+            print('RTJs Specs - from APS data')
+            for rtj_spec in rtj_specs:
+                specs.append(rtj_spec)
+                highPriorityJobs.append(rtj_spec)
+                print(rtj_spec)
+
+        else:
+            print('**NOT** Generating RTJs using APS log data')
+
+            # if the job trace contains realtime/batch indicators
+            if realtime_info_in_job_trace is True:
+                for job_temp in specs:
+                    if job_temp['jobid'] in realtime_job_ids:
+                        highPriorityJobs.append(job_temp)
+
+            # if the job trace didn't contain realtime/batch indicators then randomly set jobs as realtime/batch
+            elif realtime_info_in_job_trace is False:
+
+                ###
+                # samnickolay
+                # select simu_rt_percent of the jobs as realtime jobs using random seed
+                randomNumberGeneratorInstance = random.Random()
+                # seed = trial_number * 25 + 5
+                seed = trial_number + 1000
+                randomNumberGeneratorInstance.seed(seed)
+
+                if simu_rt_percent is None:
+                    simu_rt_percent = 0
+
+                number_rt_jobs = int(simu_rt_percent / 100.0 * len(specs))
+
+                while len(highPriorityJobs) < number_rt_jobs:
+                    job_temp = specs[randomNumberGeneratorInstance.randint(0, len(specs)-1)]
+                    if job_temp in highPriorityJobs:
+                        continue
+
+                    # if float(job_temp.get('walltime')) > 15:
+                    #     continue
+
+                    if  rt_job_categories == 'all':
+                        pass
+                    elif rt_job_categories == 'short':
+                        if float(job_temp.get('walltime')) > 120:
+                            continue
+                    elif rt_job_categories == 'narrow': # only narrow jobs
+                        if float(job_temp.get('nodes')) > 4096:
+                            continue
+                    elif rt_job_categories == 'short-or-narrow': # exclude long-wide
+                        if float(job_temp.get('nodes')) > 4096 and float(job_temp.get('walltime')) > 120:
+                            continue
+                    elif rt_job_categories == 'short-and-narrow': # only short-narrow jobs
+                        if float(job_temp.get('nodes')) > 4096 or float(job_temp.get('walltime')) > 120:
+                            continue
+                    elif rt_job_categories == 'corehours':
+                        if float(job_temp.get('nodes')) * float(job_temp.get('walltime')) > 491520:
+                            continue
+                    else:
+                        print('Invalid argument for rt_job_categories: ', rt_job_categories)
+                        exit(-1)
+
+                    # if float(job_temp.get('nodes')) > 4096:
+                    #     continue
+                    # if float(job_temp.get('walltime')) > 120:
+                    #     continue
+                    # if float(job_temp.get('nodes')) > 4096 and float(job_temp.get('walltime')) > 120:
+                    #     continue
+                    highPriorityJobs.append(job_temp)
 
         # highPriorityJobs = randomNumberGeneratorInstance.sample(specs, number_rt_jobs)
 
