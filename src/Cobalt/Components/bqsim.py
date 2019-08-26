@@ -1036,11 +1036,9 @@ class BGQsim(Simulator):
             print('Generating RTJs using APS log data')
             number_rt_jobs = int(simu_rt_percent / 100.0 * len(specs))
 
-
             queue_times = [spec['submittime'] for spec in specs]
             min_queue_time = min(queue_times)
             max_queue_time = max(queue_times)
-
 
             rtj_specs = generate_APS_jobs(number_rt_jobs, min_queue_time, max_queue_time)
             print('random batch spec for comparison')
@@ -1081,8 +1079,8 @@ class BGQsim(Simulator):
                     if job_temp in highPriorityJobs:
                         continue
 
-                    # if float(job_temp.get('walltime')) > 15:
-                    #     continue
+                    if float(job_temp.get('walltime')) > 15:
+                        continue
 
                     if  rt_job_categories == 'all':
                         pass
