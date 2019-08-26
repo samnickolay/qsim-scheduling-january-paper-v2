@@ -1034,7 +1034,7 @@ class BGQsim(Simulator):
         # this code will generate RTJs using APS data instead of assigning Mira jobs to be RTJs
         if generate_APS_RTJs is True:
             print('Generating RTJs using APS log data')
-            number_rt_jobs = int(simu_rt_percent / 100.0 * len(specs))
+            number_rt_jobs = int((simu_rt_percent / 100.0 * len(specs)) / (1.0 - simu_rt_percent / 100.0))
 
             queue_times = [spec['submittime'] for spec in specs]
             min_queue_time = min(queue_times)
@@ -1079,7 +1079,7 @@ class BGQsim(Simulator):
                     if job_temp in highPriorityJobs:
                         continue
 
-                    if float(job_temp.get('walltime')) > 15:
+                    if float(job_temp.get('walltime')) > 30:
                         continue
 
                     if  rt_job_categories == 'all':
