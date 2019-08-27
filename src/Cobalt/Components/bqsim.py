@@ -1030,7 +1030,7 @@ class BGQsim(Simulator):
             return rtj_specs
 
 
-        generate_APS_RTJs = False
+        generate_APS_RTJs = True
         # this code will generate RTJs using APS data instead of assigning Mira jobs to be RTJs
         if generate_APS_RTJs is True:
             print('Generating RTJs using APS log data')
