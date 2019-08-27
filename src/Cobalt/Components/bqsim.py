@@ -926,7 +926,7 @@ class BGQsim(Simulator):
                 spec['user'] = 'rtj'
                 spec['project'] ='default'
 
-                submit_time = random.uniform(min_queue_time, max_queue_time)
+                submit_time = round(random.uniform(min_queue_time, max_queue_time))
 
                 spec['submittime'] = submit_time
                 spec['first_subtime'] = spec['submittime']
@@ -984,9 +984,9 @@ class BGQsim(Simulator):
 
                 walltime_runtime_ratio = random.uniform(1.0, 2.0)
 
-                spec['walltime'] = str(runtime_minutes * walltime_runtime_ratio)
-                spec['walltime_p'] = float(spec['walltime'])
-                spec['runtime'] = str(runtime_minutes)
+                spec['walltime'] = str(round(runtime_minutes * walltime_runtime_ratio))
+                spec['walltime_p'] = int(spec['walltime'])
+                spec['runtime'] = str(round(runtime_minutes))
                 spec['original_log_runtime'] = spec['runtime'] 
 
 
