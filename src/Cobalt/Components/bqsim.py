@@ -1079,7 +1079,7 @@ class BGQsim(Simulator):
                     if job_temp in highPriorityJobs:
                         continue
 
-                    if float(job_temp.get('walltime')) > 30:
+                    if float(job_temp.get('walltime')) > 90:
                         continue
 
                     if  rt_job_categories == 'all':
