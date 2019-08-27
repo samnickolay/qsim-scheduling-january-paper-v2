@@ -921,7 +921,7 @@ class BGQsim(Simulator):
             rtj_specs = []
             for i in range(number_rt_jobs):
                 spec = {}
-                spec['jobid'] = i
+                spec['jobid'] = str(i)
                 spec['queue'] = 'default'
                 spec['user'] = 'rtj'
                 spec['project'] ='default'
@@ -984,8 +984,11 @@ class BGQsim(Simulator):
 
                 walltime_runtime_ratio = random.uniform(1.0, 2.0)
 
-                spec['walltime'] = runtime_minutes * walltime_runtime_ratio
-                spec['runtime'] = runtime_minutes
+                spec['walltime'] = str(runtime_minutes * walltime_runtime_ratio)
+                spec['walltime_p'] = float(spec['walltime'])
+                spec['runtime'] = str(runtime_minutes)
+                spec['original_log_runtime'] = spec['runtime'] 
+
 
                 import numpy
                 random_nodes = numpy.random.exponential(scale=2048)
@@ -1012,7 +1015,7 @@ class BGQsim(Simulator):
                 else:
                     nodes = 49152 
 
-                spec['nodes'] = nodes
+                spec['nodes'] = str(nodes)
                 
                 spec['state'] = 'invisible'
                 spec['start_time'] = '0'
@@ -1022,8 +1025,6 @@ class BGQsim(Simulator):
                 spec['location'] = tmp.get('exec_host', '')  # used for reservation jobs only
                 spec['start_time'] = tmp.get('start', 0)  # used for reservation jobs only
                 spec['restart_overhead'] = 0.0
-
-                spec['original_log_runtime'] = spec['runtime'] 
            
                 # add the job spec to the spec list
                 rtj_specs.append(spec)
