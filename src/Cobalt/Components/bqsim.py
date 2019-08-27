@@ -986,7 +986,7 @@ class BGQsim(Simulator):
 
                 spec['walltime'] = str(int(round(runtime_minutes * walltime_runtime_ratio)))
                 spec['walltime_p'] = int(spec['walltime'])
-                spec['runtime'] = str(int(round(runtime_minutes))
+                spec['runtime'] = str(int(round(runtime_minutes)))
                 spec['original_log_runtime'] = spec['runtime'] 
 
 
