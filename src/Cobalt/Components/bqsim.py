@@ -989,7 +989,6 @@ class BGQsim(Simulator):
                 spec['runtime'] = str(int(round(runtime_minutes)))
                 spec['original_log_runtime'] = spec['runtime'] 
 
-
                 import numpy
                 random_nodes = numpy.random.exponential(scale=2048)
                 if (random_nodes <= 512):
@@ -1025,6 +1024,25 @@ class BGQsim(Simulator):
                 spec['location'] = tmp.get('exec_host', '')  # used for reservation jobs only
                 spec['start_time'] = tmp.get('start', 0)  # used for reservation jobs only
                 spec['restart_overhead'] = 0.0
+
+
+                job_values = {}
+                job_values['queued_time'] = float(spec['submittime'])
+                job_values['log_start_time'] = float(spec['submittime'])
+                job_values['log_end_time'] = float(spec['submittime']) + float(spec['runtime'])
+                job_values['log_run_time'] = float(spec['runtime']) / 60.0
+                temp_bounded_runtime = max(float(spec['runtime']), bounded_slowdown_threshold)
+                job_values['log_slowdown'] = (job_values['log_start_time'] - job_values['queued_time'] +
+                                                      temp_bounded_runtime) / temp_bounded_runtime
+                job_values['log_turnaround_time'] = (job_values['log_end_time'] - job_values['queued_time']) / 60.0
+                job_values['log_queue_time'] = (job_values['log_start_time'] - job_values['queued_time']) / 60.0
+                job_values['nodes'] = int(spec['nodes'])
+
+                job_values['log_utilization_at_queue_time'] = -1.0
+                job_values['log_queue_name'] = 'n/a'
+
+                self.jobs_log_values[int(spec['jobid'])] = job_values
+
            
                 # add the job spec to the spec list
                 rtj_specs.append(spec)
