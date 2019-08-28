@@ -1055,8 +1055,8 @@ class BGQsim(Simulator):
             print('Generating RTJs using APS log data')
             number_rt_jobs = int((simu_rt_percent / 100.0 * len(specs)) / (1.0 - simu_rt_percent / 100.0))
 
-            last_queue_time = max([job_values['queued_time'] for job_values in self.jobs_log_values])
-            first_end_time = min([job_values['log_end_time'] for job_values in self.jobs_log_values])
+            last_queue_time = max([job_values['queued_time'] for job_values in self.jobs_log_values.itervalues()])
+            first_end_time = min([job_values['log_end_time'] for job_values in self.jobs_log_values.itervalues()])
 
             rtj_specs = generate_APS_jobs(number_rt_jobs, first_end_time, last_queue_time)
             print('random batch spec for comparison')
