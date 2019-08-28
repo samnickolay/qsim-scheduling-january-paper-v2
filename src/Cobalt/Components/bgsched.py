@@ -5704,6 +5704,25 @@ class BGSched (Component):
 
                 # this is the old method that uses a standard slowdown threshold for all jobs
                 slowdown_threshold = 1.1
+
+                from bqsim import REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD, REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD, \
+                    REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD, REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD
+
+                if float(j.get('nodes')) <= 4096:  # if job is narrow
+                    if float(j.get('walltime')) <= 120:  # if job is short
+                        slowdown_threshold = REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD
+                    else:  # if job is long
+                        slowdown_threshold = REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD
+                else:  # if job is wide
+                    if float(j.get('walltime')) <= 120:  # if job is short
+                        slowdown_threshold = REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD
+                    else:  # if job is long
+                        slowdown_threshold = REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD
+
+                print(j)
+                print(slowdown_threshold)
+
+
                 current_job_slowdown_threshold = slowdown_threshold
                 if temp_slowdown >= slowdown_threshold:
 
@@ -5790,50 +5809,59 @@ class BGSched (Component):
             else:  # if job is a batch job
 
                 #############################################
-                # method 1
-                # block low priority batch jobs with high SD
-                from bqsim import BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD, BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD, \
-                    BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD, BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD
-                # from bqsim import batch_narrow_short_slowdown, batch_narrow_long_slowdown, batch_wide_short_slowdown, \
-                #     batch_wide_long_slowdown
 
-                if running_job_walltime_prediction:
-                    runtime_estimate = float(job.walltime_p)  # *Adj_Est*
-                else:
-                    runtime_estimate = float(job.walltime)
+                #############################################
+                # method 0
+                # Don't block any batch jobs
+                new_low_priority_jobs.append(job)
 
-                if job_length_type == 'walltime':
-                    temp_slowdown = (now - job.submittime + runtime_estimate * 60) / (
-                        runtime_estimate * 60)
-                elif job_length_type == 'actual':
-                    # THIS IS A TEST - TO COMPUTE SLOWDOWN USING ACTUAL RUNTIME, REMOVE THIS WHEN DONE TESTING
-                    from bqsim import orig_run_times
-                    runtime_org = orig_run_times[str(job.get('jobid'))]
-                    temp_slowdown = (now - job.submittime + runtime_org) / runtime_org
-                elif job_length_type == 'predicted':
-                    # THIS IS A TEST - TO COMPUTE SLOWDOWN USING PREDICTED RUNTIME, REMOVE THIS WHEN DONE TESTING
-                    from bqsim import predicted_run_times
-                    predicted_runtime = predicted_run_times[str(job.get('jobid'))]
-                    temp_slowdown = (now - job.get('submittime') + predicted_runtime) / predicted_runtime
-                else:
-                    # print('s', job_length_type)
-                    exit(-1)
+                #############################################
 
-                if float(job.get('nodes')) <= 4096:  # if job is narrow
-                    if float(job.get('walltime')) <= 120:  # if job is short
-                        slowdown_threshold = BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD
-                    else:  # if job is long
-                        slowdown_threshold = BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD
-                else:  # if job is wide
-                    if float(job.get('walltime')) <= 120:  # if job is short
-                        slowdown_threshold = BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD
-                    else:  # if job is long
-                        slowdown_threshold = BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD
+                #############################################
+                # # method 1
+                # # block low priority batch jobs with high SD
+                # from bqsim import BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD, BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD, \
+                #     BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD, BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD
+                # # from bqsim import batch_narrow_short_slowdown, batch_narrow_long_slowdown, batch_wide_short_slowdown, \
+                # #     batch_wide_long_slowdown
 
-                if temp_slowdown < slowdown_threshold:
-                    new_low_priority_jobs.append(job)
-                else:
-                    removed_batch_jobs_count += 1
+                # if running_job_walltime_prediction:
+                #     runtime_estimate = float(job.walltime_p)  # *Adj_Est*
+                # else:
+                #     runtime_estimate = float(job.walltime)
+
+                # if job_length_type == 'walltime':
+                #     temp_slowdown = (now - job.submittime + runtime_estimate * 60) / (
+                #         runtime_estimate * 60)
+                # elif job_length_type == 'actual':
+                #     # THIS IS A TEST - TO COMPUTE SLOWDOWN USING ACTUAL RUNTIME, REMOVE THIS WHEN DONE TESTING
+                #     from bqsim import orig_run_times
+                #     runtime_org = orig_run_times[str(job.get('jobid'))]
+                #     temp_slowdown = (now - job.submittime + runtime_org) / runtime_org
+                # elif job_length_type == 'predicted':
+                #     # THIS IS A TEST - TO COMPUTE SLOWDOWN USING PREDICTED RUNTIME, REMOVE THIS WHEN DONE TESTING
+                #     from bqsim import predicted_run_times
+                #     predicted_runtime = predicted_run_times[str(job.get('jobid'))]
+                #     temp_slowdown = (now - job.get('submittime') + predicted_runtime) / predicted_runtime
+                # else:
+                #     # print('s', job_length_type)
+                #     exit(-1)
+
+                # if float(job.get('nodes')) <= 4096:  # if job is narrow
+                #     if float(job.get('walltime')) <= 120:  # if job is short
+                #         slowdown_threshold = BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD
+                #     else:  # if job is long
+                #         slowdown_threshold = BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD
+                # else:  # if job is wide
+                #     if float(job.get('walltime')) <= 120:  # if job is short
+                #         slowdown_threshold = BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD
+                #     else:  # if job is long
+                #         slowdown_threshold = BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD
+
+                # if temp_slowdown < slowdown_threshold:
+                #     new_low_priority_jobs.append(job)
+                # else:
+                #     removed_batch_jobs_count += 1
 
                 #############################################
 
