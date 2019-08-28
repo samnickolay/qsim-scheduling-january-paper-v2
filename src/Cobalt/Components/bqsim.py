@@ -917,7 +917,7 @@ class BGQsim(Simulator):
 
         highPriorityJobs = []
 
-        def generate_APS_jobs(number_rt_jobs, min_queue_time, max_queue_time):
+        def generate_APS_jobs(number_rt_jobs, first_end_time, last_queue_time):
             rtj_specs = []
             for i in range(number_rt_jobs):
                 spec = {}
@@ -926,7 +926,7 @@ class BGQsim(Simulator):
                 spec['user'] = 'rtj'
                 spec['project'] ='default'
 
-                submit_time = int(round(random.uniform(min_queue_time, max_queue_time)))
+                submit_time = int(round(random.uniform(first_end_time, last_queue_time)))
 
                 spec['submittime'] = submit_time
                 spec['first_subtime'] = spec['submittime']
@@ -1055,11 +1055,10 @@ class BGQsim(Simulator):
             print('Generating RTJs using APS log data')
             number_rt_jobs = int((simu_rt_percent / 100.0 * len(specs)) / (1.0 - simu_rt_percent / 100.0))
 
-            queue_times = [spec['submittime'] for spec in specs]
-            min_queue_time = min(queue_times)
-            max_queue_time = max(queue_times)
+            last_queue_time = max([job_values['queued_time'] for job_values in self.jobs_log_values])
+            first_end_time = min([job_values['log_end_time'] for job_values in self.jobs_log_values])
 
-            rtj_specs = generate_APS_jobs(number_rt_jobs, min_queue_time, max_queue_time)
+            rtj_specs = generate_APS_jobs(number_rt_jobs, first_end_time, last_queue_time)
             print('random batch spec for comparison')
             print(specs[0])
             print('RTJs Specs - from APS data')
