@@ -60,6 +60,12 @@ BALANCE_FACTOR = 1
 rtj_id = []
 #
 #
+
+# generate_APS_RTJs = True
+generate_APS_RTJs = False
+# restrict_RTJ_walltime_size_90min = True
+restrict_RTJ_walltime_size_90min = False
+
 REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.1
 REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.1
 REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD = 1.1
@@ -1053,8 +1059,6 @@ class BGQsim(Simulator):
                 rtj_specs.append(spec)
             return rtj_specs
 
-
-        generate_APS_RTJs = True
         # this code will generate RTJs using APS data instead of assigning Mira jobs to be RTJs
         if generate_APS_RTJs is True:
             print('Generating RTJs using APS log data')
@@ -1073,7 +1077,11 @@ class BGQsim(Simulator):
                 print(rtj_spec)
 
         else:
-            print('**NOT** Generating RTJs using APS log data')
+            print('\n**NOT** Generating RTJs using APS log data')
+            if restrict_RTJ_walltime_size_90min is True:
+                print('\nRestricting RTJs to a walltime under 90 minutes\n')
+            else:
+                print('\n**NOT** Restricting RTJs to a walltime under 90 minutes\n')
 
             # if the job trace contains realtime/batch indicators
             if realtime_info_in_job_trace is True:
@@ -1102,8 +1110,9 @@ class BGQsim(Simulator):
                     if job_temp in highPriorityJobs:
                         continue
 
-                    # if float(job_temp.get('walltime')) > 90:
-                    #     continue
+                    if restrict_RTJ_walltime_size_90min is True:
+                        if float(job_temp.get('walltime')) > 90:
+                            continue
 
                     if  rt_job_categories == 'all':
                         pass
