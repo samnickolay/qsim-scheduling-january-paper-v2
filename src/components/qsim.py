@@ -469,6 +469,10 @@ if __name__ == "__main__":
     job_metrics = ['slowdown_runtime_', 'slowdown_walltime_', 'turnaround_time_', 'count_']
     # trimmed_jobs = ['', '_trimmed']
 
+    low_walltime_runtime_ratio = ['', '_low_walltime_runtime_ratio']
+
+
+
     def make_metric_results_dict(options, current_experiment_metrics):
         metric_results_dict = {}
         metric_results_dict['name'] = options.get("name")
@@ -499,19 +503,23 @@ if __name__ == "__main__":
         for job_category in job_categories:
             for job_metric in job_metrics:
                 for job_type in job_types:
-                    all_jobs_metrics_dict[job_category + job_metric + job_type] = \
-                        current_experiment_metrics[job_category + job_metric + job_type]
+                    for low_ratio_str in low_walltime_runtime_ratio:
+                        all_jobs_metrics_dict[job_category + job_metric + job_type + low_ratio_str] = \
+                            current_experiment_metrics[job_category + job_metric + job_type + low_ratio_str]
+
+                        trimmed_jobs_metrics_dict [job_category + job_metric + job_type + low_ratio_str] = \
+                            current_experiment_metrics[job_category + job_metric + job_type + '_trimmed' + low_ratio_str]
 
         trimmed_jobs_metrics_dict["makespan"] = current_experiment_metrics["makespan_trimmed"]
         trimmed_jobs_metrics_dict["system_utilization"] = current_experiment_metrics["system_utilization_trimmed"]
         trimmed_jobs_metrics_dict["productive_utilization"] = current_experiment_metrics["productive_utilization_trimmed"]
         trimmed_jobs_metrics_dict["overhead_utilization"] = current_experiment_metrics["overhead_utilization_trimmed"]
 
-        for job_category in job_categories:
-            for job_metric in job_metrics:
-                for job_type in job_types:
-                    trimmed_jobs_metrics_dict [job_category + job_metric + job_type] = \
-                        current_experiment_metrics[job_category + job_metric + job_type + '_trimmed']
+        # for job_category in job_categories:
+        #     for job_metric in job_metrics:
+        #         for job_type in job_types:
+        #             trimmed_jobs_metrics_dict [job_category + job_metric + job_type] = \
+        #                 current_experiment_metrics[job_category + job_metric + job_type + '_trimmed']
 
         metric_results_dict['job_metrics_all'] = all_jobs_metrics_dict
         metric_results_dict['job_metrics_trimmed'] = trimmed_jobs_metrics_dict

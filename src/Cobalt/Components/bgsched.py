@@ -5719,10 +5719,9 @@ class BGSched (Component):
                     else:  # if job is long
                         slowdown_threshold = REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD
 
-                print(j.get('nodes'))
-                print(j.get('walltime'))
-                print(slowdown_threshold)
-
+                # print(j.get('nodes'))
+                # print(j.get('walltime'))
+                # print(slowdown_threshold)
 
                 current_job_slowdown_threshold = slowdown_threshold
                 if temp_slowdown >= slowdown_threshold:

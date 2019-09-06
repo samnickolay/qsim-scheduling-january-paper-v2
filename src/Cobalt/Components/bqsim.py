@@ -73,7 +73,7 @@ REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD = 1.1
 
 BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD = 3.0 #1.5 #5.0
 BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.3 #1.2 #1.5
-BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD = 10.0 #20
+BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD = 5.0 #20
 BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD = 2.0 #1.5 #5.0
 
 walltimes = {} # in seconds (float)
@@ -8743,14 +8743,17 @@ class BGQsim(Simulator):
 
         trimmed_jobs = ['', '_trimmed']
 
+        low_walltime_runtime_ratio = ['', '_low_walltime_runtime_ratio']
+
         for job_category in job_categories:
             for job_type in job_types:
                 for job_metric in job_metrics:
                     for trimmed_job in trimmed_jobs:
-                        if 'count' in job_metric:
-                            experiment_metrics[job_category + job_metric + job_type + trimmed_job] = 0
-                        else:
-                            experiment_metrics[job_category + job_metric + job_type + trimmed_job] = []
+                        for low_ratio in low_walltime_runtime_ratio:
+                            if 'count' in job_metric:
+                                experiment_metrics[job_category + job_metric + job_type + trimmed_job + low_ratio] = 0
+                            else:
+                                experiment_metrics[job_category + job_metric + job_type + trimmed_job + low_ratio] = []
 
         experiment_metrics['run_time'] = []
 
@@ -8760,6 +8763,12 @@ class BGQsim(Simulator):
             trimmed_list = [job_values['job_type']]
             if job_values['trimmed'] is True:
                 trimmed_list.append(job_values['job_type'] + '_trimmed')
+
+            # if job's walltime/runtime ratio is < 5, then add it to the low_walltime_runtime_ratio entry
+            print(float(job_values['walltime'])/job_values['original_log_runtime'])
+            if float(job_values['walltime'])/job_values['original_log_runtime'] < 5.0:
+                extra_items = [job_type + low_walltime_runtime_ratio[1] for job_type in trimmed_list]
+                trimmed_list = trimmed_list + extra_items
 
             experiment_metrics['run_time'].append(job_values['run_time'])
 
