@@ -66,15 +66,31 @@ generate_APS_RTJs = False
 # restrict_RTJ_walltime_size_90min = True
 restrict_RTJ_walltime_size_90min = False
 
-REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.1
-REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.1
-REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD = 1.1
-REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD = 1.1 
 
-BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD = 3.0 #1.5 #5.0
-BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.3 #1.2 #1.5
-BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD = 5.0 #20
-BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD = 2.0 #1.5 #5.0
+current_log = 'mira_wk1'
+# current_log = 'cea_curie'
+
+if current_log == 'mira_wk1':
+    REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.1
+    REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.1
+    REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD = 5.77
+    REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD = 1.59 
+
+    BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.5
+    BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.5
+    BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD = 17.31
+    BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD = 4.77
+elif current_log == 'cea_curie':
+    REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.1
+    REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD = 1.1
+    REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD = 4.5
+    REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD = 2.01 
+
+    BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.5
+    BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD = 3.21
+    BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD = 13.5
+    BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD = 6.02
+
 
 walltimes = {} # in seconds (float)
 walltime_runtime_differences = {} # in seconds (float)
@@ -8677,7 +8693,7 @@ class BGQsim(Simulator):
 
                 job_values['wall_time'] = float(walltimes[str(jobid_int)]) / 60.0
                 job_values['run_time'] = temp_run_time
-                job_values['log_run_time'] = float(job.get('original_log_runtime'))
+                # job_values['log_run_time'] = float(job.get('original_log_runtime'))
                 job_values['slowdown_runtime'] = temp_slowdown_runtime
                 job_values['slowdown_walltime'] = temp_slowdown_walltime
                 job_values['turnaround_time'] = temp_turnaround_time
@@ -8766,12 +8782,12 @@ class BGQsim(Simulator):
                 trimmed_list.append(job_values['job_type'] + '_trimmed')
 
             # if job's walltime/runtime ratio is < 5, then add it to the low_walltime_runtime_ratio entry
-            print(float(job_values['wall_time'])/job_values['log_run_time'])
-            if float(job_values['wall_time'])/job_values['log_run_time'] < 5.0:
+            print(float(job_values['wall_time'])/job_values['run_time'])
+            if float(job_values['wall_time'])/job_values['run_time'] < 5.0:
                 extra_items = [job_type + low_walltime_runtime_ratio[1] for job_type in trimmed_list]
                 trimmed_list = trimmed_list + extra_items
 
-            experiment_metrics['run_time'].append(job_values['run_time'])
+            # experiment_metrics['run_time'].append(job_values['run_time'])
 
             for job_type in trimmed_list:
                 experiment_metrics['slowdown_runtime_' + job_type].append(job_values['slowdown_runtime'])
