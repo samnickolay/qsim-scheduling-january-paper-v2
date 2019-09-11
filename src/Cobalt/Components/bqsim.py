@@ -8765,8 +8765,8 @@ class BGQsim(Simulator):
                 trimmed_list.append(job_values['job_type'] + '_trimmed')
 
             # if job's walltime/runtime ratio is < 5, then add it to the low_walltime_runtime_ratio entry
-            print(float(job_values['walltime'])/job_values['original_log_runtime'])
-            if float(job_values['walltime'])/job_values['original_log_runtime'] < 5.0:
+            print(float(job_values['wall_time'])/job_values['original_log_runtime'])
+            if float(job_values['wall_time'])/job_values['original_log_runtime'] < 5.0:
                 extra_items = [job_type + low_walltime_runtime_ratio[1] for job_type in trimmed_list]
                 trimmed_list = trimmed_list + extra_items
 
