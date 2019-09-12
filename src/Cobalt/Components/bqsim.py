@@ -63,8 +63,9 @@ rtj_id = []
 
 # generate_APS_RTJs = True
 generate_APS_RTJs = False
-# restrict_RTJ_walltime_size_90min = True
-restrict_RTJ_walltime_size_90min = False
+
+restrict_RTJ_walltime_size_90min = True
+# restrict_RTJ_walltime_size_90min = False
 
 
 current_log = 'mira_wk1'
@@ -90,6 +91,19 @@ elif current_log == 'cea_curie':
     BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD = 3.21
     BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD = 13.5
     BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD = 6.02
+
+print('\n\nusing slowdown thresholds for log: ' + current_log)
+print('RTJ Slowdown Thresholds:')
+print(REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD)
+print(REALTIME_NARROW_LONG_SLOWDOWN_THRESHOLD)
+print(REALTIME_WIDE_SHORT_SLOWDOWN_THRESHOLD)
+print(REALTIME_WIDE_LONG_SLOWDOWN_THRESHOLD)
+print('Batch Slowdown Thresholds:')
+print(BATCH_NARROW_SHORT_SLOWDOWN_THRESHOLD)
+print(BATCH_NARROW_LONG_SLOWDOWN_THRESHOLD)
+print(BATCH_WIDE_SHORT_SLOWDOWN_THRESHOLD)
+print(BATCH_WIDE_LONG_SLOWDOWN_THRESHOLD)
+print('\n\n')
 
 
 walltimes = {} # in seconds (float)
