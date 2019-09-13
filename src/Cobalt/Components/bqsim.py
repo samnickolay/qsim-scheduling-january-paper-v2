@@ -68,8 +68,8 @@ generate_APS_RTJs = False
 restrict_RTJ_walltime_size_90min = False
 
 
-current_log = 'mira_wk1'
-# current_log = 'cea_curie'
+# current_log = 'mira_wk1'
+current_log = 'cea_curie'
 
 if current_log == 'mira_wk1':
     REALTIME_NARROW_SHORT_SLOWDOWN_THRESHOLD = 1.1
