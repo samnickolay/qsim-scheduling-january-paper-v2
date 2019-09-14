@@ -61,11 +61,11 @@ rtj_id = []
 #
 #
 
-# generate_APS_RTJs = True
-generate_APS_RTJs = False
+generate_APS_RTJs = True
+# generate_APS_RTJs = False
 
-restrict_RTJ_walltime_size_90min = True
-# restrict_RTJ_walltime_size_90min = False
+# restrict_RTJ_walltime_size_90min = True
+restrict_RTJ_walltime_size_90min = False
 
 
 # current_log = 'mira_wk1'
@@ -1098,13 +1098,13 @@ class BGQsim(Simulator):
             first_end_time = min([job_values['log_end_time'] for job_values in self.jobs_log_values.itervalues()])
 
             rtj_specs = generate_APS_jobs(number_rt_jobs, first_end_time, last_queue_time)
-            print('random batch spec for comparison')
-            print(specs[0])
-            print('RTJs Specs - from APS data')
+            # print('random batch spec for comparison')
+            # print(specs[0])
+            # print('RTJs Specs - from APS data')
             for rtj_spec in rtj_specs:
                 specs.append(rtj_spec)
                 highPriorityJobs.append(rtj_spec)
-                print(rtj_spec)
+                # print(rtj_spec)
 
         else:
             print('\n**NOT** Generating RTJs using APS log data')
@@ -8796,7 +8796,7 @@ class BGQsim(Simulator):
                 trimmed_list.append(job_values['job_type'] + '_trimmed')
 
             # if job's walltime/runtime ratio is < 5, then add it to the low_walltime_runtime_ratio entry
-            print(float(job_values['wall_time'])/job_values['run_time'])
+            # print(float(job_values['wall_time'])/job_values['run_time'])
             if float(job_values['wall_time'])/job_values['run_time'] < 5.0:
                 extra_items = [job_type + low_walltime_runtime_ratio[1] for job_type in trimmed_list]
                 trimmed_list = trimmed_list + extra_items
