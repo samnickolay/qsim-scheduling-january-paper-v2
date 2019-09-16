@@ -64,8 +64,8 @@ rtj_id = []
 # generate_APS_RTJs = True
 generate_APS_RTJs = False
 
-restrict_RTJ_walltime_size_90min = True
-# restrict_RTJ_walltime_size_90min = False
+# restrict_RTJ_walltime_size_90min = True
+restrict_RTJ_walltime_size_90min = False
 
 
 current_log = 'mira_wk1'
