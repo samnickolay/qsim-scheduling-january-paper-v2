@@ -195,8 +195,9 @@ def make_cobalt_logs(jobs, start_datetime, end_datetime, metrics_start_datetime,
         output_strings += make_job_cobalt_log_strings(job)
 
     for job in jobs_in_window:
-        if int(job.NODES_USED) <= 4096:
-            print(str(job.NODES_USED) +',' + str(job.WALLTIME_SECONDS) +',' + str(job.RUNTIME_SECONDS))
+        print(str(job.WALLTIME_SECONDS) + ',' + str(job.RUNTIME_SECONDS))
+        # if int(job.NODES_USED) <= 4096:
+        #     print(str(job.NODES_USED) +',' + str(job.WALLTIME_SECONDS) +',' + str(job.RUNTIME_SECONDS))
     exit(-1)
 
     with open(output_log_name, 'w') as file:  # Use file to refer to the file object

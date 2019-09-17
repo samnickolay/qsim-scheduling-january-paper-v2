@@ -61,8 +61,8 @@ rtj_id = []
 #
 #
 
-# generate_APS_RTJs = True
-generate_APS_RTJs = False
+generate_APS_RTJs = True
+# generate_APS_RTJs = False
 
 # restrict_RTJ_walltime_size_90min = True
 restrict_RTJ_walltime_size_90min = False
@@ -1019,16 +1019,19 @@ class BGQsim(Simulator):
                              381, 450, 416, 85, 89, 90, 90, 89, 92, 88, 97, 92, 97, 98, 85, 88, 91, 87, 93, 92]
 
                 runtime_seconds = random.choice(aps_runtimes)
-                runtime_minutes = runtime_seconds / 60.0
 
                 # convert walltime from 'hh:mm:ss' to float of minutes
 
                 walltime_runtime_ratio = random.uniform(1.0, 2.0)
+                walltime = int(round(runtime_seconds / 60.0 * walltime_runtime_ratio))
 
-                spec['walltime'] = str(int(round(runtime_minutes * walltime_runtime_ratio)))
+                runtime = walltime / walltime_runtime_ratio * 60.0
+
+                # spec['walltime'] = str(int(round(runtime_minutes * walltime_runtime_ratio)))
+                spec['walltime'] = str(walltime)
                 spec['walltime_p'] = int(spec['walltime'])
-                spec['runtime'] = str(int(round(runtime_minutes)))
-                spec['original_log_runtime'] = spec['runtime'] 
+                spec['runtime'] = str(runtime_seconds)
+                spec['original_log_runtime'] = spec['runtime']
 
                 import numpy
                 random_nodes = numpy.random.exponential(scale=2048)
