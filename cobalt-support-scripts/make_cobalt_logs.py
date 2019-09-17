@@ -183,7 +183,7 @@ def make_cobalt_logs(jobs, start_datetime, end_datetime, metrics_start_datetime,
         runtimes.append(job.RUNTIME_SECONDS)
 
         # this code uses runtime instead of walltime for job categorization
-        this error is here intentionally, address comment above if trying to use this code
+        # this error is here intentionally, address comment above if trying to use this code
 
         if job.NODES_USED <= 4096:  # if job is narrow
             if job.RUNTIME_SECONDS <= 120 * 60.0:  # if job is short
@@ -247,6 +247,11 @@ def make_cobalt_logs(jobs, start_datetime, end_datetime, metrics_start_datetime,
         
         job.UTILIZATION_AT_QUEUE_TIME = get_utilization_at_time(jobs, job.QUEUED_TIMESTAMP)
         output_strings += make_job_cobalt_log_strings(job)
+
+    for job in jobs_in_window:
+        # print(job.NODES_USED)
+        print(job.WALLTIME_SECONDS / 60.0)
+    exit(-1)
 
     with open(output_log_name, 'w') as file:  # Use file to refer to the file object
         for output_string in output_strings:

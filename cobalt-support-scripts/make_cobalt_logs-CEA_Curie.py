@@ -34,8 +34,8 @@ def main():
 
     print('making cobalt logs for CEA Curie logs')
 
-    start_datetime1 = datetime(year=1971, month=2, day=17)
-    end_datetime1 = start_datetime1 + timedelta(days=11)
+    start_datetime1 = datetime(year=1971, month=8, day=18)
+    end_datetime1 = start_datetime1 + timedelta(days=10)
 
     metrics_start_datetime1 = start_datetime1 + timedelta(days=2)
     metrics_end_datetime1 = metrics_start_datetime1 + timedelta(days=7)
@@ -193,6 +193,11 @@ def make_cobalt_logs(jobs, start_datetime, end_datetime, metrics_start_datetime,
         
         job.UTILIZATION_AT_QUEUE_TIME = get_utilization_at_time(jobs, job.QUEUED_TIMESTAMP)
         output_strings += make_job_cobalt_log_strings(job)
+
+    for job in jobs_in_window:
+        if int(job.NODES_USED) <= 4096:
+            print(str(job.NODES_USED) +',' + str(job.WALLTIME_SECONDS) +',' + str(job.RUNTIME_SECONDS))
+    exit(-1)
 
     with open(output_log_name, 'w') as file:  # Use file to refer to the file object
         for output_string in output_strings:
@@ -389,7 +394,7 @@ def parse_jobs():
             continue
         elif new_job.curie_nodes <= 0:
             continue
-        elif new_job.curie_nodes < 256:
+        elif new_job.curie_nodes < 257:
         # elif new_job.mira_nodes_unrounded < 135:
             continue
 

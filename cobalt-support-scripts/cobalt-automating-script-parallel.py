@@ -9,23 +9,46 @@ git clone https://github.com/samnickolay/qsim-scheduling.git /gpfs/jlse-fs0/user
 
 
 # testing for this version being the code used with the january paper
-git clone https://github.com/samnickolay/qsim-scheduling-january-paper.git /gpfs/jlse-fs0/users/samnickolay/cobalt-master
+git clone https://github.com/samnickolay/qsim-scheduling-january-paper-v2.git /gpfs/jlse-fs0/users/samnickolay/cobalt-master
 chmod +x /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/qsub_script_v1.sh
 mkdir /gpfs/jlse-fs0/users/samnickolay/cobalt-master/log
 
+--- 10 trials ---
+Week 1 command
+qsub -q gomez -t 6:00:00 -n 1 /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/qsub_script_v1.sh "python /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/cobalt-automating-script-parallel.py --rt_percents 5 10 15 20 --trials 10 --rt_job_categories all --checkpoint_heuristics baseline v2_sam_v1 v2p_app_sam_v1 --runtime_estimators walltime --checkp_overhead_percents 5 10 20 --log_file_name wk1.log --results_window_start 2018/01/21 --results_window_length 7"
 
+CEA Curie command
+qsub -q gomez -t 6:00:00 -n 1 /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/qsub_script_v1.sh "python /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/cobalt-automating-script-parallel.py --rt_percents 5 10 15 20 --trials 10 --rt_job_categories all --checkpoint_heuristics baseline v2_sam_v1 v2p_app_sam_v1 --runtime_estimators walltime --checkp_overhead_percents 5 10 20 --log_file_name cea_curie_cobalt_ready_no_rtj.log --results_window_start 1971/08/20 --results_window_length 7"
+
+
+--- 5 trials ---
 Week 1 command
 qsub -q gomez -t 6:00:00 -n 1 /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/qsub_script_v1.sh "python /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/cobalt-automating-script-parallel.py --rt_percents 5 10 15 20 --trials 5 --rt_job_categories all --checkpoint_heuristics baseline v2_sam_v1 v2p_app_sam_v1 --runtime_estimators walltime --checkp_overhead_percents 5 10 20 --log_file_name wk1.log --results_window_start 2018/01/21 --results_window_length 7"
 
 CEA Curie command
-qsub -q gomez -t 6:00:00 -n 1 /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/qsub_script_v1.sh "python /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/cobalt-automating-script-parallel.py --rt_percents 5 10 15 20 --trials 5 --rt_job_categories all --checkpoint_heuristics baseline v2_sam_v1 v2p_app_sam_v1 --runtime_estimators walltime --checkp_overhead_percents 5 10 20 --log_file_name cea_curie_cobalt_ready_no_rtj.log --results_window_start 1971/02/20 --results_window_length 7"
+qsub -q gomez -t 6:00:00 -n 1 /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/qsub_script_v1.sh "python /gpfs/jlse-fs0/users/samnickolay/cobalt-master/cobalt-support-scripts/cobalt-automating-script-parallel.py --rt_percents 5 10 15 20 --trials 5 --rt_job_categories all --checkpoint_heuristics baseline v2_sam_v1 v2p_app_sam_v1 --runtime_estimators walltime --checkp_overhead_percents 5 10 20 --log_file_name cea_curie_cobalt_ready_no_rtj.log --results_window_start 1971/08/20 --results_window_length 7"
 
 
-results_directory="results_8-15-19_cea_curie_v1"
-
-results_directory="results_8-19-19_wk1_v2_test"
+results_directory="results_test"
 mkdir -p $results_directory
 scp -r samnickolay@login.jlse.anl.gov:/gpfs/jlse-fs0/users/samnickolay/cobalt-master/src/components/results/* /home/samnickolay/$results_directory/
+
+
+# results_base_directory="results_9-13_10-trials/"
+
+results_directory="${results_base_directory}/cea_curie_original"
+results_directory="${results_base_directory}/cea_curie_90min_restriction"
+results_directory="${results_base_directory}/cea_curie_APS_RTJS"
+results_directory="${results_base_directory}/mira_wk1_original"
+results_directory="${results_base_directory}/mira_wk1_90min_restriction"
+results_directory="${results_base_directory}/mira_wk1_APS_RTJS"
+
+
+results_base_directory="results_9-13_10-trials/"
+results_directory="${results_base_directory}/mira_wk1_original"
+mkdir -p $results_directory
+scp -r samnickolay@login.jlse.anl.gov:/gpfs/jlse-fs0/users/samnickolay/cobalt-master/src/components/results/* /home/samnickolay/$results_directory/
+
 
 
 
