@@ -14,11 +14,11 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$parse_old_logs.coverage" NAME="parse_old_logs Coverage Results" MODIFIED="1555610567400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/cobalt_support_scripts$make_cobalt_logs_CEA_Curie.coverage" NAME="make_cobalt_logs-CEA_Curie Coverage Results" MODIFIED="1568749738528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cobalt_support_scripts$make_cobalt_logs_CEA_Curie.coverage" NAME="make_cobalt_logs-CEA_Curie Coverage Results" MODIFIED="1568836605303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$make_pricing_graphs.coverage" NAME="make-pricing-graphs Coverage Results" MODIFIED="1550076315964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$make_pricing_graphs_v2.coverage" NAME="make-pricing-graphs-v2 Coverage Results" MODIFIED="1558625835865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$cobalt_graphing_script__1_.coverage" NAME="cobalt-graphing-script (1) Coverage Results" MODIFIED="1566365499728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/qsim-scheduling-january-paper/cobalt-support-scripts" />
-    <SUITE FILE_PATH="coverage/cobalt_support_scripts$cobalt_graphing_script_january_paper.coverage" NAME="cobalt-graphing-script-january-paper Coverage Results" MODIFIED="1568707209776" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cobalt_support_scripts$cobalt_graphing_script_january_paper.coverage" NAME="cobalt-graphing-script-january-paper Coverage Results" MODIFIED="1568837091412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$pickle_parsing_script.coverage" NAME="pickle-parsing-script Coverage Results" MODIFIED="1548447773970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$cobalt_graphing_script.coverage" NAME="cobalt-graphing-script Coverage Results" MODIFIED="1566251704562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/cobalt_support_scripts$make_cobalt_logs.coverage" NAME="make_cobalt_logs Coverage Results" MODIFIED="1566868003856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -28,10 +28,10 @@
       <file leaf-file-name="cobalt-automating-script-parallel.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cobalt-automating-script-parallel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+            <state relative-caret-position="846">
+              <caret line="47" column="63" lean-forward="false" selection-start-line="47" selection-start-column="63" selection-end-line="47" selection-end-column="63" />
               <folding>
-                <element signature="e#7796#7813#0" expanded="true" />
+                <element signature="e#7797#7814#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -40,8 +40,8 @@
       <file leaf-file-name="cobalt-graphing-script-january-paper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cobalt-graphing-script-january-paper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+            <state relative-caret-position="122">
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -80,7 +80,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_dict_series</find>
       <find>get_data_dicts</find>
       <find>checkpoint_over</find>
       <find>runtime</find>
@@ -110,6 +109,7 @@
       <find>spreadsheet_metric</find>
       <find>metric ==</find>
       <find>_trimmed</find>
+      <find>low</find>
     </findStrings>
     <replaceStrings>
       <replace>,</replace>
@@ -131,9 +131,9 @@
         <option value="$PROJECT_DIR$/cobalt-graphing-script.py" />
         <option value="$USER_HOME$/qsim-scheduling-january-paper/cobalt-support-scripts/cobalt-graphing-script.py" />
         <option value="$PROJECT_DIR$/make_cobalt_logs.py" />
-        <option value="$PROJECT_DIR$/cobalt-automating-script-parallel.py" />
-        <option value="$PROJECT_DIR$/cobalt-graphing-script-january-paper.py" />
         <option value="$PROJECT_DIR$/make_cobalt_logs-CEA_Curie.py" />
+        <option value="$PROJECT_DIR$/cobalt-graphing-script-january-paper.py" />
+        <option value="$PROJECT_DIR$/cobalt-automating-script-parallel.py" />
       </list>
     </option>
   </component>
@@ -201,7 +201,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.make_cobalt_logs-CEA_Curie">
+  <component name="RunManager" selected="Python.cobalt-graphing-script-january-paper">
     <configuration name="cobalt-graphing-script (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,8 +301,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.make_cobalt_logs-CEA_Curie" />
-        <item index="1" class="java.lang.String" itemvalue="Python.cobalt-graphing-script-january-paper" />
+        <item index="0" class="java.lang.String" itemvalue="Python.cobalt-graphing-script-january-paper" />
+        <item index="1" class="java.lang.String" itemvalue="Python.make_cobalt_logs-CEA_Curie" />
         <item index="2" class="java.lang.String" itemvalue="Python.make_cobalt_logs" />
         <item index="3" class="java.lang.String" itemvalue="Python.cobalt-graphing-script (1)" />
         <item index="4" class="java.lang.String" itemvalue="Python.cobalt-graphing-script" />
@@ -643,8 +643,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cobalt-graphing-script-january-paper.py</url>
-          <line>382</line>
+          <line>381</line>
           <option name="timeStamp" value="232" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cobalt-graphing-script-january-paper.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="236" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -654,7 +659,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="236" />
+      <option name="time" value="237" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -703,7 +708,7 @@
         <state relative-caret-position="342">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -752,7 +757,7 @@
         <state relative-caret-position="342">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -811,7 +816,7 @@
         <state relative-caret-position="3690">
           <caret line="209" column="50" lean-forward="false" selection-start-line="209" selection-start-column="50" selection-end-line="209" selection-end-column="50" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -822,7 +827,7 @@
         <state relative-caret-position="900">
           <caret line="54" column="19" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -853,7 +858,7 @@
         <state relative-caret-position="414">
           <caret line="23" column="9" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -874,7 +879,7 @@
         <state relative-caret-position="252">
           <caret line="14" column="47" lean-forward="false" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -992,14 +997,6 @@
     <entry file="file://$PROJECT_DIR$/make_cobalt_logs_with_aps_data.py" />
     <entry file="file://$PROJECT_DIR$/misc-notes.txt" />
     <entry file="file://$PROJECT_DIR$/qsub_script_v1.sh" />
-    <entry file="file://$PROJECT_DIR$/cobalt-graphing-script-january-paper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/make_cobalt_logs-CEA_Curie.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
@@ -1008,12 +1005,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cobalt-graphing-script-january-paper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cobalt-automating-script-parallel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="52" column="0" lean-forward="true" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+        <state relative-caret-position="846">
+          <caret line="47" column="63" lean-forward="false" selection-start-line="47" selection-start-column="63" selection-end-line="47" selection-end-column="63" />
           <folding>
-            <element signature="e#7796#7813#0" expanded="true" />
+            <element signature="e#7797#7814#0" expanded="true" />
           </folding>
         </state>
       </provider>

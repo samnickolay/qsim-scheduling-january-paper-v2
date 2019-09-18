@@ -21,23 +21,22 @@ print('\nTrimmed global variable value is: ' + trimmed_global + '\n')
 results_base_directory = "results_9-13_10-trials/"
 # results_directory = results_base_directory +"cea_curie_original"
 # results_directory=results_base_directory +"cea_curie_90min_restriction"
-# results_directory=results_base_directory +"cea_curie_APS_RTJS"
+results_directory=results_base_directory +"cea_curie_APS_RTJS"
 # results_directory=results_base_directory +"mira_wk1_original"
 # results_directory=results_base_directory +"mira_wk1_90min_restriction"
-results_directory=results_base_directory +"mira_wk1_APS_RTJS"
-
+# results_directory=results_base_directory +"mira_wk1_APS_RTJS"
 
 global_spreadsheet_metric = 'average'
 # global_spreadsheet_metric = 'median'
+
+# only_low_walltime_runtime_ratio_jobs = True
+# only_low_walltime_runtime_ratio_jobs = False
 
 # make_plots_bool = True
 make_plots_bool = False
 
 make_spreadsheet_bool = True
 # make_spreadsheet_bool = False
-
-only_low_walltime_runtime_ratio_jobs = True
-# only_low_walltime_runtime_ratio_jobs = False
 
 current_data = None
 

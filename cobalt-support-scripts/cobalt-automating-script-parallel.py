@@ -45,7 +45,7 @@ results_directory="${results_base_directory}/mira_wk1_APS_RTJS"
 
 
 results_base_directory="results_9-13_10-trials/"
-results_directory="${results_base_directory}/mira_wk1_original"
+results_directory="${results_base_directory}/cea_curie_APS_RTJS"
 mkdir -p $results_directory
 scp -r samnickolay@login.jlse.anl.gov:/gpfs/jlse-fs0/users/samnickolay/cobalt-master/src/components/results/* /home/samnickolay/$results_directory/
 
